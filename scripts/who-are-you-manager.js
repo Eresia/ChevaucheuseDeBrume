@@ -225,7 +225,6 @@ export async function startQuestions(interaction)
 		}
 		catch(error)
 		{
-			console.error(error);
 			await sendError(interaction, 'Délai de deux minutes dépassé, test annulé.');
 			return;
 		}
@@ -259,8 +258,16 @@ export async function startQuestions(interaction)
 		return;
 	}
 
-	interaction.channel.send({embeds: finalEmbed.embeds, files: finalEmbed.files});
-	confirmation.update({components: [], withResponse: false});
+	try
+	{
+		await interaction.channel.send({embeds: finalEmbed.embeds, files: finalEmbed.files});
+		await confirmation.update({components: [], withResponse: false});
+	}
+	catch(error)
+	{
+		console.error(error);
+	}
+	
 }
 
 function generateQuestion(title, author, data)
@@ -379,7 +386,7 @@ function getVocationIndex(results, nbQuestions)
 
 	if(volonte >= pouvoir && creativite >= pouvoir)
 	{
-		return VOCATIONS.CHAN;
+		return VOCATIONS.SCUL;
 	}
 
 	return VOCATIONS.UNKNOWN;
