@@ -1,0 +1,8 @@
+.vs/
+.vscode/
+config.json
+node_modules/
+data/
+sheet.json
+types.json
+result.json
