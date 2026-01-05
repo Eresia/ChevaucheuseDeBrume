@@ -75,5 +75,8 @@ export async function generateCircleScores(results, nbQuestions)
 		editedImage.data[i + 3] = 255;
 	}
 
-	return await sharp(editedImage.data, {raw: editedImage.info}).toFormat('png').toBuffer();
+	let finalImage = sharp(editedImage.data, {raw: editedImage.info}).toFormat('png');
+	finalImage.composite([{input: 'images/Legende.png'}]);
+
+	return await finalImage.toBuffer();
 }

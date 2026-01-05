@@ -1,6 +1,8 @@
 .vs/
 .vscode/
 config.json
+config_prod.json
+config_test.json
 node_modules/
 data/
 sheet.json
