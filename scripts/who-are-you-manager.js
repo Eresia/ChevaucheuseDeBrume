@@ -163,7 +163,15 @@ export async function refreshData()
 
 export async function startQuestions(interaction)
 {
-	await interaction.deferReply({flags: MessageFlags.Ephemeral});
+	try
+	{
+		await interaction.deferReply({flags: MessageFlags.Ephemeral});
+	}
+	catch
+	{
+		return;
+	}
+
 	let author = { name: await DiscordUtils.getUserNameById(interaction.guild, interaction.user.id), iconURL: interaction.user.avatarURL()};
 
 	let initDescription = `Combien de questions voulez vous ?\n\nRapide : ${fastQuestions} questions\n`/*Moyenne : ${mediumQuestions} questions\n*/ + `Longue : Toutes les questions (${questions.length})`;
@@ -179,9 +187,8 @@ export async function startQuestions(interaction)
 		let response = await interaction.editReply({embeds: [initEmbed.embed], components: [initEmbed.actionRow], withResponse: true, flags: MessageFlags.Ephemeral});
 		confirmation = await response.awaitMessageComponent({ filter: collectorFilter, time: 120_000 });
 	}
-	catch(error)
+	catch
 	{
-		console.error(error);
 		await sendError(interaction, 'Délai de deux minutes dépassé, test annulé.');
 		return;
 	}
